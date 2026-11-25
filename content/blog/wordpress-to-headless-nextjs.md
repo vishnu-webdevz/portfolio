@@ -331,6 +331,4 @@ SEO is where most migrations go wrong. Use this checklist:
 - **Security:** WordPress is no longer the public face of your site.
 
 ## Next up
-A fast frontend is half the story. In the next post, we use **AI to build pages from your own component library**, with guardrails so it can't use off-brand colors, invent fonts or add distracting animations.
-
-*Want help planning your migration? [Get in touch](/#contact).*
+A fast frontend is half the story. In the [next post](/blog/ai-page-building-brand-guardrails), we use **AI to build pages from your own component library**, with guardrails so it can't use off-brand colors, invent fonts or add distracting animations.

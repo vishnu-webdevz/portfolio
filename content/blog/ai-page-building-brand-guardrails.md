@@ -344,5 +344,3 @@ It passes validation, renders with your components, uses your colors and animate
 4. **Week 4:** write the AI rules file and add the brand guard to CI.
 
 Once the guardrails exist, **adding AI is the easy part.**
-
-*Want a brand-locked component system set up for your site? [Let's talk](/#contact).*

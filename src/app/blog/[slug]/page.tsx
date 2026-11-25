@@ -132,23 +132,6 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
           </div>
         </article>
 
-        {/* ---------- Author / CTA ---------- */}
-        <section className="mx-auto max-w-4xl px-5 pb-16 sm:px-8">
-          <div className="overflow-hidden rounded-2xl border border-inverse-line bg-inverse p-7 text-inverse-fg sm:p-10">
-            <p className="eyebrow !text-accent">Written by {post.author}</p>
-            <p className="mt-4 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
-              Planning something like this? <span className="text-accent">Let&rsquo;s talk.</span>
-            </p>
-            <p className="mt-3 max-w-xl text-inverse-muted">
-              {site.role} at {site.company}. I help teams build fast, accessible websites with Next.js, WordPress and AI-assisted workflows.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href={`mailto:${site.email}`} className="btn btn-primary">Email me</a>
-              <Link href="/#journey" className="btn border border-inverse-line text-inverse-fg hover:border-inverse-fg">View my journey</Link>
-            </div>
-          </div>
-        </section>
-
         {others.length > 0 && (
           <section className="border-t border-line bg-bg-alt">
             <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
