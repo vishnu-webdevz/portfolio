@@ -24,7 +24,7 @@ function Thumb({ project, index }: { project: Project; index: number }) {
       )}
       {v === 1 && (
         <>
-          <text x="160" y="92" textAnchor="middle" style={{ fontFamily: "var(--font-anton), Impact, sans-serif" }} fontSize="44" fill={main}>
+          <text x="160" y="92" textAnchor="middle" style={{ fontFamily: "var(--font-geist), system-ui, sans-serif", fontWeight: 600, letterSpacing: "-0.04em" }} fontSize="42" fill={main}>
             {project.title.toUpperCase()}
           </text>
           <rect x="110" y="108" width="100" height="8" rx="4" fill={accent} />
@@ -47,29 +47,40 @@ function Thumb({ project, index }: { project: Project; index: number }) {
 
 export function WorkGrid({ projects }: { projects: Project[] }) {
   return (
-    <ul className="mt-12 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {projects.map((project, index) => {
         const href = project.live ?? project.code;
         return (
-          <li key={project.title} className="group relative">
-            <div className="relative overflow-hidden rounded-sm border-[5px] border-cream bg-cream shadow-[0_10px_24px_-12px_rgba(60,30,0,0.45)] transition-transform duration-300 group-hover:-translate-y-1.5 group-hover:-rotate-1">
-              <Thumb project={project} index={index} />
-              <span className="absolute right-2 top-8 rounded-full border-2 border-ink bg-yellow px-2.5 py-0.5 text-[0.65rem] font-extrabold uppercase tracking-wider text-ink">
+          <li key={project.title} className="card group relative flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-line-strong">
+            <div className="relative overflow-hidden border-b border-line">
+              <div className="transition-transform duration-500 group-hover:scale-[1.03]">
+                <Thumb project={project} index={index} />
+              </div>
+              <span className="absolute right-3 top-9 inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white/90 px-2.5 py-0.5 font-mono text-[0.65rem] font-medium uppercase tracking-wider text-[#111113] backdrop-blur">
+                <span className="size-1.5 rounded-full bg-[#f5b800]" aria-hidden="true" />
                 {project.status}
               </span>
             </div>
-            <h3 className="mt-5 text-2xl font-bold tracking-tight text-oxblood">
-              {href ? (
-                <a href={href} target="_blank" rel="noreferrer" className="after:absolute after:inset-0">
-                  {project.title}
-                </a>
-              ) : (
-                project.title
-              )}
-            </h3>
-            <p className="mt-0.5 font-semibold">{project.subtitle}</p>
-            <p className="mt-2 leading-relaxed text-ink/80">{project.summary}</p>
-            <p className="mt-3 text-xs font-bold uppercase tracking-[0.14em] text-ink/60">{project.tags.join(" · ")}</p>
+            <div className="flex flex-1 flex-col p-6">
+              <h3 className="text-xl font-semibold tracking-[-0.02em]">
+                {href ? (
+                  <a href={href} target="_blank" rel="noreferrer" className="after:absolute after:inset-0">
+                    {project.title}
+                  </a>
+                ) : (
+                  project.title
+                )}
+              </h3>
+              <p className="mt-0.5 text-[0.95rem] font-medium text-accent-text">{project.subtitle}</p>
+              <p className="mt-3 flex-1 leading-relaxed text-muted">{project.summary}</p>
+              <ul className="mt-5 flex flex-wrap gap-1.5">
+                {project.tags.map((t) => (
+                  <li key={t} className="chip">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </li>
         );
       })}

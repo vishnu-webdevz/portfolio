@@ -6,6 +6,7 @@ import { PageSky } from "@/components/page-sky";
 import { WorkGrid } from "@/components/work-grid";
 import { PlanetBlast } from "@/components/planet-blast";
 import { Journey } from "@/components/journey";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const hasJourney = experience.length > 0;
 
@@ -26,7 +27,6 @@ const nav = [
   { href: "#contact", label: "Contact" },
 ];
 
-
 function GitHubIcon({ className = "" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -43,7 +43,23 @@ function LinkedInIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function SocialCircles({ dark = false }: { dark?: boolean }) {
+function DownloadIcon({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 4v12M6 11l6 6 6-6M5 20h14" />
+    </svg>
+  );
+}
+
+function ArrowIcon({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+function SocialLinks() {
   return (
     <ul className="flex items-center gap-2">
       {site.socials.map((s) => (
@@ -53,9 +69,7 @@ function SocialCircles({ dark = false }: { dark?: boolean }) {
             target="_blank"
             rel="noreferrer"
             aria-label={s.label}
-            className={`grid size-11 place-items-center rounded-full transition-transform hover:-translate-y-0.5 ${
-              dark ? "bg-yellow text-ink" : "bg-ink text-yellow"
-            }`}
+            className="grid size-11 place-items-center rounded-full border border-inverse-line text-inverse-fg transition-colors hover:border-accent hover:text-accent"
           >
             {s.label === "GitHub" ? <GitHubIcon className="size-5" /> : <LinkedInIcon className="size-5" />}
           </a>
@@ -65,119 +79,143 @@ function SocialCircles({ dark = false }: { dark?: boolean }) {
   );
 }
 
+function SectionHeader({
+  index,
+  eyebrow,
+  title,
+  description,
+  center = false,
+  inverse = false,
+}: {
+  index: string;
+  eyebrow: string;
+  title: string;
+  description?: string;
+  center?: boolean;
+  inverse?: boolean;
+}) {
+  return (
+    <div className={center ? "mx-auto max-w-2xl text-center" : "flex flex-wrap items-end justify-between gap-6"}>
+      <div>
+        <p className={`eyebrow ${inverse ? "!text-accent" : ""}`}>
+          {index} / {eyebrow}
+        </p>
+        <h2 className={`mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl ${inverse ? "text-inverse-fg" : ""}`}>{title}</h2>
+      </div>
+      {description && (
+        <p className={`max-w-md text-[1.05rem] leading-relaxed ${center ? "mx-auto mt-4" : ""} ${inverse ? "text-inverse-muted" : "text-muted"}`}>
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <>
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-yellow"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
       >
         Skip to content
       </a>
 
       {/* ---------- Illustrated header ---------- */}
-      <header id="top" className="relative">
+      <header id="top" className="relative bg-bg">
         <div className="relative h-[170px] overflow-hidden sm:h-[260px]">
           <SpaceBackdrop />
-          <div className="absolute inset-x-0 bottom-0 h-[34px] sm:h-[44px]">
-            <div className="absolute inset-x-0 -top-px h-[6px] bg-[#c99a1e]" />
-            <div className="absolute inset-0 top-[5px] bg-mustard" />
-            <div className="absolute inset-x-0 bottom-0 h-[6px] bg-[#6b4e08]" />
+          {/* desk ledge the developer sits on */}
+          <div className="absolute inset-x-0 bottom-0 h-[30px] bg-[var(--ledge)] sm:h-[38px]">
+            <div className="absolute inset-x-0 top-0 h-[3px] bg-[var(--ledge-top)]" />
+            <div className="absolute inset-x-0 top-[3px] h-px bg-white/10" />
           </div>
-          <div className="pointer-events-none absolute inset-x-0 bottom-[34px] mx-auto h-16 max-w-6xl sm:bottom-[44px]">
+          <div className="pointer-events-none absolute inset-x-0 bottom-[30px] mx-auto h-16 max-w-6xl sm:bottom-[38px]">
             <LedgeProps />
           </div>
         </div>
 
         <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
-          {/* The developer sits on the ledge; legs hang into the yellow. */}
-          {/* Seat (y=200 of 420) lines up with the ledge top at every size. */}
-          <Developer className="pointer-events-none absolute -top-[144px] right-0 w-[286px] sm:-top-[224px] sm:left-1/2 sm:right-auto sm:w-[468px] sm:-translate-x-1/2" />
+          {/* The developer sits on the ledge; legs hang over the page. */}
+          <Developer className="pointer-events-none absolute -top-[140px] right-0 w-[286px] sm:-top-[218px] sm:left-1/2 sm:right-auto sm:w-[468px] sm:-translate-x-1/2" />
 
-          <div className="flex flex-col gap-6 border-b-2 border-ink/10 pb-6 pt-6 sm:pt-8 xl:flex-row xl:items-end xl:justify-between">
-            <a href="#top" className="block max-w-full pr-[150px] sm:w-fit sm:pr-0">
-              <p className="font-display text-[3.4rem] uppercase leading-[0.9] tracking-[-0.01em] sm:text-7xl">
-                {site.name}
+          <div className="flex flex-col gap-5 border-b border-line pb-5 pt-6 sm:pt-[108px] xl:flex-row xl:items-end xl:justify-between xl:pt-[92px]">
+            <a href="#top" className="group block max-w-full pr-[150px] sm:w-fit sm:pr-0">
+              <p className="flex items-center gap-2 text-[1.65rem] font-semibold tracking-[-0.04em] sm:text-3xl">
+                <span className="grid size-8 place-items-center rounded-md bg-accent font-mono text-sm font-semibold text-accent-ink sm:size-9" aria-hidden="true">
+                  V
+                </span>
+                {site.name.toLowerCase()}
+                <span className="text-accent">.</span>
               </p>
-              <p className="mt-2 text-[0.7rem] font-extrabold uppercase tracking-[0.06em] sm:text-sm">
-                {site.tagline.map((t, i) => (
-                  <span key={t} className="whitespace-nowrap">
-                    {i > 0 && " • "}
-                    {t}
-                  </span>
-                ))}
+              <p className="mt-1.5 font-mono text-[0.68rem] uppercase tracking-[0.08em] text-muted sm:text-xs">
+                {site.tagline.join("  /  ")}
               </p>
             </a>
 
-            <nav aria-label="Primary" className="-mx-2 overflow-x-auto [scrollbar-width:none]">
-              <ul className="flex items-center gap-1 sm:gap-2">
-                {nav.map((item) => (
-                  <li key={item.href}>
-                    <a
-                      href={item.href}
-                      className="block whitespace-nowrap rounded-md px-3 py-2 text-sm font-extrabold uppercase tracking-wide transition-colors hover:bg-yellow-tab sm:px-4 sm:text-[0.95rem]"
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-                <li className="hidden sm:block">
-                  <a
-                    href={site.resumeUrl}
-                    download
-                    className="ml-1 inline-flex items-center gap-2 whitespace-nowrap rounded-md bg-ink px-5 py-2 text-[0.95rem] font-extrabold uppercase tracking-wide text-yellow transition-transform hover:-translate-y-0.5"
-                  >
-                    Résumé
-                    <svg className="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M12 4v12M6 11l6 6 6-6M5 20h14" />
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <nav aria-label="Primary" className="-mx-2 w-[calc(100%+1rem)] overflow-x-auto [scrollbar-width:none] sm:w-auto">
+                <ul className="flex items-center gap-0.5 sm:gap-1">
+                  {nav.map((item) => (
+                    <li key={item.href}>
+                      <a
+                        href={item.href}
+                        className="block whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-bg-alt hover:text-fg sm:px-3.5"
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+              <div className="flex items-center gap-3">
+                <ThemeSwitcher />
+                <a href={site.resumeUrl} download className="btn btn-secondary hidden !py-2 !text-sm sm:inline-flex">
+                  Résumé
+                  <DownloadIcon className="size-3.5" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </header>
 
       <main id="main" className="flex-1">
         {/* ---------- Hero ---------- */}
-        <section className="doodle doodle-yellow relative overflow-hidden">
-          <PageSky seed={3} />
+        <section className="relative overflow-hidden">
+          <div className="grid-bg grid-fade absolute inset-0" aria-hidden="true" />
           <div className="relative mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="rise inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-2xl bg-ink sm:rounded-full px-4 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-yellow sm:text-sm">
-                <span className="size-2 rounded-full bg-yellow" aria-hidden="true" />
-                {site.role} @ {site.company}
-                <span className="text-yellow/60">· {site.location}</span>
+              <p className="rise inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-full border border-line bg-surface px-3.5 py-1.5 font-mono text-xs text-muted shadow-[var(--shadow)]">
+                <span className="relative flex size-2" aria-hidden="true">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
+                  <span className="relative inline-flex size-2 rounded-full bg-accent" />
+                </span>
+                <span className="text-fg">{site.role}</span>
+                <span>@ {site.company}</span>
+                <span className="text-line-strong">·</span>
+                <span>{site.location}</span>
               </p>
-              <h1 className="rise mt-6 font-display text-[4.6rem] uppercase leading-[0.9] tracking-[-0.01em] [animation-delay:60ms] sm:text-[7rem] lg:text-[8rem]">
-                <span className="block">Hi, I&rsquo;m</span>
-                <span className="block text-oxblood">{site.name}.</span>
+              <h1 className="rise mt-7 text-[3.6rem] font-semibold leading-[0.95] tracking-[-0.05em] [animation-delay:60ms] sm:text-[5.25rem] lg:text-[6rem]">
+                <span className="block text-muted">Hi, I&rsquo;m</span>
+                <span className="relative inline-block">
+                  {site.name}
+                  <span className="text-accent">.</span>
+                  <span className="absolute inset-x-0 bottom-[0.08em] -z-10 h-[0.22em] rounded-sm bg-accent/35" aria-hidden="true" />
+                </span>
               </h1>
-              <p className="rise mt-5 text-sm font-extrabold uppercase tracking-[0.16em] text-ink/80 [animation-delay:140ms] sm:text-base">
-                {site.subline}
-              </p>
-              <p className="rise mt-6 max-w-lg text-lg font-medium leading-relaxed [animation-delay:200ms] sm:text-xl">
-                {site.intro}
-              </p>
-              <div className="rise mt-9 flex flex-wrap items-center gap-4 [animation-delay:260ms]">
-                <a
-                  href="#work"
-                  className="rounded-xl bg-ink px-8 py-4 text-base font-extrabold uppercase tracking-wide text-yellow shadow-[0_6px_0_rgba(0,0,0,0.25)] transition-transform hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.25)]"
-                >
+              <p className="rise mt-6 text-xl font-medium tracking-[-0.01em] [animation-delay:140ms] sm:text-2xl">{site.subline}</p>
+              <p className="rise mt-4 max-w-xl text-[1.05rem] leading-relaxed text-muted [animation-delay:200ms] sm:text-lg">{site.intro}</p>
+              <div className="rise mt-9 flex flex-wrap items-center gap-3 [animation-delay:260ms]">
+                <a href="#work" className="btn btn-primary">
                   See my work
+                  <ArrowIcon />
                 </a>
-                <a
-                  href={site.resumeUrl}
-                  download
-                  className="inline-flex items-center gap-2 rounded-xl border-[3px] border-ink bg-cream px-6 py-[13px] text-base font-extrabold uppercase tracking-wide shadow-[0_6px_0_rgba(0,0,0,0.25)] transition-transform hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.25)]"
-                >
+                <a href={site.resumeUrl} download className="btn btn-secondary">
                   Résumé
-                  <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M12 4v12M6 11l6 6 6-6M5 20h14" />
-                  </svg>
+                  <DownloadIcon />
                 </a>
-                <a href="#contact" className="font-extrabold uppercase tracking-wide underline decoration-2 underline-offset-[6px] hover:decoration-4">
+                <a href="#contact" className="ml-2 text-[0.95rem] font-medium text-muted underline decoration-line-strong underline-offset-[6px] transition-colors hover:text-fg hover:decoration-accent">
                   Get in touch
                 </a>
               </div>
@@ -190,15 +228,18 @@ export default function Home() {
         </section>
 
         {/* ---------- Numbers ---------- */}
-        <section aria-label="At a glance" className="bg-ink text-cream">
+        <section aria-label="At a glance" className="border-y border-line bg-surface">
           <dl className="mx-auto grid max-w-6xl grid-cols-2 lg:grid-cols-4">
             {stats.map((s, i) => (
               <div
                 key={s.label}
-                className={`flex flex-col-reverse justify-end border-cream/10 px-5 py-8 sm:px-8 sm:py-10 ${i % 2 ? "border-l" : ""} ${i > 1 ? "border-t lg:border-t-0" : ""} ${i === 2 ? "lg:border-l" : ""}`}
+                className={`flex flex-col-reverse justify-end border-line px-5 py-8 sm:px-8 sm:py-10 ${i % 2 ? "border-l" : ""} ${i > 1 ? "border-t lg:border-t-0" : ""} ${i === 2 ? "lg:border-l" : ""}`}
               >
-                <dt className="mt-2 text-xs font-extrabold uppercase tracking-[0.16em] text-cream/60">{s.label}</dt>
-                <dd className="font-display text-5xl text-yellow sm:text-6xl">{s.value}</dd>
+                <dt className="mt-2 font-mono text-xs uppercase tracking-[0.06em] text-muted">{s.label}</dt>
+                <dd className="text-5xl font-semibold tracking-[-0.04em] sm:text-6xl">
+                  {s.value.replace(/[+×]$/, "")}
+                  <span className="text-accent">{s.value.match(/[+×]$/)?.[0]}</span>
+                </dd>
               </div>
             ))}
           </dl>
@@ -206,14 +247,10 @@ export default function Home() {
 
         {/* ---------- Journey ---------- */}
         {hasJourney && (
-          <section id="journey" className="topo relative overflow-hidden border-y-2 border-ink/10">
-              <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
-              <div className="text-center">
-                <p className="font-script text-4xl text-oxblood">the road so far</p>
-                <h2 className="font-display text-6xl uppercase leading-none sm:text-7xl">My journey</h2>
-                <p className="mx-auto mt-3 max-w-md font-medium text-ink/75">Scroll down and walk the road with me.</p>
-              </div>
-              <div className="mt-14">
+          <section id="journey" className="topo relative overflow-hidden">
+            <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+              <SectionHeader center index="01" eyebrow="The road so far" title="Career journey" description="Seven years, five roles. Scroll and walk the road with me." />
+              <div className="mt-24 sm:mt-28">
                 <Journey items={experience} />
               </div>
             </div>
@@ -221,23 +258,22 @@ export default function Home() {
         )}
 
         {/* ---------- Toolbox ---------- */}
-        <section id="skills" className="doodle doodle-deep relative overflow-hidden">
-          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
-            <h2 className="font-display text-6xl uppercase leading-none sm:text-7xl">Toolbox</h2>
-            <p className="mt-3 max-w-md font-medium text-ink/80">The languages, frameworks and habits I use every day.</p>
-            <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <section id="skills" className="relative border-t border-line">
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <SectionHeader index="02" eyebrow="Toolbox" title="What I build with" description="The languages, frameworks and habits I use every day." />
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {skills.map((group, gi) => (
-                <div key={group.group}>
-                  <h3 className="flex items-center gap-3 text-sm font-extrabold uppercase tracking-[0.14em]">
-                    <span className="font-display text-2xl text-oxblood">0{gi + 1}</span>
-                    {group.group}
+                <div key={group.group} className="card p-6">
+                  <h3 className="flex items-baseline justify-between gap-3">
+                    <span className="font-semibold tracking-[-0.01em]">{group.group}</span>
+                    <span className="font-mono text-xs text-accent-text">0{gi + 1}</span>
                   </h3>
-                  <ul className="mt-5 flex flex-wrap gap-2">
+                  <ul className="mt-5 flex flex-wrap gap-1.5">
                     {group.items.map((item, i) => (
                       <li
                         key={item}
-                        className={`rounded-full px-4 py-2 text-sm font-bold ${
-                          i < 2 ? "bg-ink text-yellow" : "border-2 border-ink/80 text-ink"
+                        className={`rounded-md px-2.5 py-1 text-[0.82rem] font-medium ${
+                          i < 2 ? "bg-accent-soft text-fg ring-1 ring-accent/40" : "bg-bg-alt text-muted ring-1 ring-line"
                         }`}
                       >
                         {item}
@@ -249,27 +285,26 @@ export default function Home() {
             </div>
 
             {/* AI-powered workflow */}
-            <div className="mt-16 rounded-3xl border-[3px] border-ink bg-ink p-6 text-cream shadow-[8px_8px_0_rgba(22,18,15,0.35)] sm:p-10">
+            <div className="mt-16 overflow-hidden rounded-2xl border border-inverse-line bg-inverse p-6 text-inverse-fg sm:p-10">
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <p className="font-script text-3xl text-yellow">supercharged with</p>
-                  <h3 className="font-display text-4xl uppercase leading-none text-cream sm:text-5xl">AI-powered workflow</h3>
+                  <p className="eyebrow !text-accent">Supercharged with AI</p>
+                  <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">AI-powered workflow</h3>
                 </div>
-                <p className="max-w-sm text-cream/70">
+                <p className="max-w-sm text-inverse-muted">
                   I use AI tools across the whole build — from the first page to review, release and project tracking.
                 </p>
               </div>
-              <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {aiWorkflow.map((item) => (
-                  <li
-                    key={item.tool}
-                    className="group rounded-2xl border-2 border-cream/15 bg-cream/[0.04] p-5 transition-colors hover:border-yellow hover:bg-yellow/[0.07]"
-                  >
-                    <p className="flex items-center gap-2 font-extrabold uppercase tracking-wide text-yellow">
-                      <span className="size-2.5 rounded-full bg-yellow transition-transform group-hover:scale-150" aria-hidden="true" />
-                      {item.tool}
+              <ul className="mt-10 grid gap-px overflow-hidden rounded-xl border border-inverse-line bg-inverse-line sm:grid-cols-2 lg:grid-cols-3">
+                {aiWorkflow.map((item, i) => (
+                  <li key={item.tool} className="group bg-inverse p-6 transition-colors hover:bg-white/[0.03]">
+                    <p className="flex items-center justify-between gap-2">
+                      <span className="font-semibold">{item.tool}</span>
+                      <span className="font-mono text-xs text-inverse-muted transition-colors group-hover:text-accent">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                     </p>
-                    <p className="mt-2 leading-relaxed text-cream/80">{item.what}</p>
+                    <p className="mt-2 text-[0.95rem] leading-relaxed text-inverse-muted">{item.what}</p>
                   </li>
                 ))}
               </ul>
@@ -278,39 +313,36 @@ export default function Home() {
         </section>
 
         {/* ---------- Work ---------- */}
-        <section id="work" className="relative overflow-hidden border-t-2 border-ink/10">
-          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="font-script text-4xl text-oxblood">things I&rsquo;m building</p>
-                <h2 className="font-display text-6xl uppercase leading-none sm:text-7xl">Selected work</h2>
-              </div>
-              <p className="max-w-sm font-medium text-ink/75">
-                Senior-level products I&rsquo;m building now — each one a deep dive into a hard problem.
-              </p>
-            </div>
+        <section id="work" className="relative border-t border-line bg-bg-alt">
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <SectionHeader
+              index="03"
+              eyebrow="Selected work"
+              title="Things I’m building"
+              description="Senior-level products in progress — each one a deep dive into a hard problem."
+            />
             <WorkGrid projects={projects} />
           </div>
         </section>
 
         {/* ---------- About ---------- */}
-        <section id="about" className="relative overflow-hidden">
-          <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-20">
+        <section id="about" className="relative border-t border-line">
+          <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-20">
             <div>
-              <p className="font-script text-4xl text-oxblood">a little about</p>
-              <h2 className="font-display text-6xl uppercase leading-none sm:text-7xl">About me</h2>
-              <div className="mt-8 space-y-5 text-lg font-medium leading-relaxed text-ink/85">
+              <p className="eyebrow">04 / About</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">A little about me</h2>
+              <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
                 {about.paragraphs.map((p) => (
                   <p key={p.slice(0, 24)}>{p}</p>
                 ))}
               </div>
             </div>
-            <div className="-rotate-1 rounded-2xl bg-cream p-6 shadow-[6px_6px_0_var(--ink)]">
-              <p className="font-script text-3xl text-oxblood">When I&rsquo;m not coding…</p>
-              <ul className="mt-3 space-y-2 font-semibold">
+            <div className="card p-7">
+              <p className="font-mono text-xs uppercase tracking-[0.08em] text-accent-text">When I&rsquo;m not coding</p>
+              <ul className="mt-5 divide-y divide-line">
                 {about.outside.map((item) => (
-                  <li key={item} className="flex gap-3">
-                    <span aria-hidden="true">✦</span>
+                  <li key={item} className="flex items-center gap-3 py-3 font-medium first:pt-0 last:pb-0">
+                    <span className="size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
                     {item}
                   </li>
                 ))}
@@ -320,44 +352,42 @@ export default function Home() {
         </section>
 
         {/* ---------- Contact ---------- */}
-        <section id="contact" className="doodle doodle-ink relative overflow-hidden text-cream">
+        <section id="contact" className="relative overflow-hidden bg-inverse text-inverse-fg">
           <PageSky seed={23} />
           <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <h2 className="relative w-fit">
-              <span className="block font-display text-[3.8rem] uppercase leading-[0.9] text-yellow sm:text-[7.5rem]">
-                Let&rsquo;s build
-                <br />
-                something
-              </span>
-              <span className="absolute -bottom-7 right-0 -rotate-6 font-script text-5xl text-cream sm:-bottom-10 sm:text-7xl">
-                together
-              </span>
+            <p className="eyebrow !text-accent">05 / Contact</p>
+            <h2 className="mt-5 text-[2.9rem] font-semibold leading-[1] tracking-[-0.045em] sm:text-7xl">
+              Let&rsquo;s build something
+              <br />
+              <span className="text-accent">together.</span>
             </h2>
-            <p className="mt-16 max-w-xl text-lg text-cream/80">
+            <p className="mt-7 max-w-xl text-lg text-inverse-muted">
               Have a project, a role or just a question? Send a message — I usually reply within a couple of days.
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-6">
-              <a
-                href={`mailto:${site.email}`}
-                className="max-w-full break-all rounded-xl bg-yellow px-6 py-4 text-base font-extrabold tracking-wide text-ink shadow-[0_6px_0_#b8860b] transition-transform hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[0_2px_0_#b8860b] sm:px-8"
-              >
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <a href={`mailto:${site.email}`} className="btn btn-primary max-w-full break-all">
                 {site.email}
+                <ArrowIcon />
               </a>
               {site.resumeUrl && (
-                <a href={site.resumeUrl} className="font-extrabold uppercase tracking-wide underline decoration-2 underline-offset-[6px]">
+                <a
+                  href={site.resumeUrl}
+                  className="btn border border-inverse-line text-inverse-fg hover:border-inverse-fg"
+                >
                   Download résumé
+                  <DownloadIcon />
                 </a>
               )}
-              <SocialCircles dark />
+              <SocialLinks />
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="bg-ink text-cream/60">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 border-t border-cream/10 px-5 py-7 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <p>© 2026 {site.name}. Designed &amp; built with Next.js and Tailwind CSS.</p>
-          <a href="#top" className="font-semibold hover:text-yellow">Back to top ↑</a>
+      <footer className="border-t border-inverse-line bg-inverse text-inverse-muted">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-7 font-mono text-xs sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <p>© 2026 {site.name}. Built with Next.js &amp; Tailwind CSS.</p>
+          <a href="#top" className="hover:text-accent">Back to top ↑</a>
         </div>
       </footer>
     </>

@@ -30,7 +30,7 @@ function Meteoroid() {
 
 function PlanetFace() {
   return (
-    <div className="absolute inset-0 rounded-full border-4 border-ink bg-[radial-gradient(circle_at_35%_30%,#ffe58a,#ffc20e_45%,#e08e00)]">
+    <div className="absolute inset-0 rounded-full border-2 border-[#111113]/80 bg-[radial-gradient(circle_at_35%_30%,#ffe58a,#f5b800_45%,#d98a00)]">
       <span className="absolute left-[16%] top-[56%] size-9 rounded-full bg-[#e8a400]/70 shadow-[inset_2px_2px_0_rgba(0,0,0,0.12)]" />
       <span className="absolute left-[60%] top-[18%] size-7 rounded-full bg-[#e8a400]/70 shadow-[inset_2px_2px_0_rgba(0,0,0,0.12)]" />
       <span className="absolute left-[66%] top-[62%] size-5 rounded-full bg-[#e8a400]/70 shadow-[inset_2px_2px_0_rgba(0,0,0,0.12)]" />
@@ -83,17 +83,18 @@ export function PlanetBlast({ items }: { items: string[] }) {
     <div ref={rootRef} className="relative size-[300px] sm:size-[380px]">
       <div data-phase={phase} className="blast absolute left-0 top-0 size-[380px] origin-top-left scale-[0.789] sm:scale-100">
         {/* the space window */}
-        <div className="orbit-window absolute inset-0 rounded-full border-[6px] border-ink shadow-[8px_10px_0_rgba(22,18,15,0.9)]">
-          <div className="absolute inset-[6px] rounded-full border-2 border-cream/30" />
+        <div className="orbit-window absolute inset-0 rounded-full ring-1 ring-line-strong shadow-[0_30px_60px_-30px_rgba(6,10,28,0.65)]">
+          <div className="absolute inset-[10px] rounded-full border border-white/10" />
+          <div className="absolute inset-[38px] rounded-full border border-dashed border-white/10" />
         </div>
 
         {/* shockwave */}
-        <span className="blast-shock absolute left-1/2 top-1/2 size-[200px] -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-yellow" />
+        <span className="blast-shock absolute left-1/2 top-1/2 size-[200px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#f5b800]" />
 
         {/* glowing core revealed when the planet splits */}
         <div className="blast-core absolute left-1/2 top-1/2 size-[92px] -translate-x-1/2 -translate-y-1/2">
-          <div className="planet-glow absolute -inset-8 rounded-full bg-yellow/40 blur-xl" />
-          <div className="absolute inset-0 grid place-items-center rounded-full border-4 border-ink bg-[radial-gradient(circle_at_40%_35%,#fffbe8,#ffe27a_45%,#ffc20e)] font-display text-3xl text-ink">
+          <div className="planet-glow absolute -inset-8 rounded-full bg-[#f5b800]/40 blur-xl" />
+          <div className="absolute inset-0 grid place-items-center rounded-full border-2 border-[#111113] bg-[radial-gradient(circle_at_40%_35%,#fffbe8,#ffe27a_45%,#f5b800)] font-mono text-2xl font-semibold text-[#111113]">
             &lt;/&gt;
           </div>
         </div>
@@ -136,8 +137,8 @@ export function PlanetBlast({ items }: { items: string[] }) {
               className="blast-item absolute left-1/2 top-1/2"
               style={{ "--x": `${x}px`, "--y": `${y}px`, "--i": i } as React.CSSProperties}
             >
-              <span className="blast-badge flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-ink bg-cream px-2.5 py-1 text-[0.68rem] font-extrabold uppercase tracking-wide text-ink shadow-[3px_3px_0_var(--ink)]">
-                <span className="size-2 rounded-full border border-ink bg-yellow" />
+              <span className="blast-badge flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-surface px-3 py-1 font-mono text-[0.68rem] font-medium text-fg shadow-[var(--shadow)]">
+                <span className="size-1.5 rounded-full bg-accent" />
                 {label}
               </span>
             </div>

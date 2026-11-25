@@ -1,79 +1,240 @@
 @import "tailwindcss";
 
-:root {
+/* ---------- Design tokens ----------
+   Three themes share one set of semantic tokens. "gold" (white + yellow) is the
+   default; "midnight" and "slate" are alternates picked from the header switcher. */
+:root,
+[data-theme="gold"] {
+  --bg: #ffffff;
+  --bg-alt: #faf8f3;
+  --surface: #ffffff;
+  --fg: #111113;
+  --muted: #5e5e66;
+  --line: #e9e6dd;
+  --line-strong: #d6d2c6;
+  --accent: #f5b800;
+  --accent-soft: #fff5d1;
+  --accent-ink: #111113;
+  --accent-text: #8f6400;
+  --inverse: #111113;
+  --inverse-fg: #f4f3ee;
+  --inverse-muted: #a3a29b;
+  --inverse-line: #2a2a2e;
+  --road: #1e1e22;
+  --road-edge: #111113;
+  --ledge: #1a1a1d;
+  --ledge-top: #f5b800;
+  --shadow: 0 1px 2px rgb(17 17 19 / 0.04), 0 8px 24px -12px rgb(17 17 19 / 0.12);
+  --grid: rgb(17 17 19 / 0.045);
+  color-scheme: light;
+
+  /* legacy palette, still used by the illustrations and the résumé page */
   --yellow: #ffc20e;
-  --yellow-deep: #f5a700;
-  --yellow-tab: #f0b400;
-  --mustard: #b8860b;
   --ink: #16120f;
   --cream: #f4f1ea;
   --oxblood: #8b1a0e;
-  --slate: #566d7b;
+}
+[data-theme="midnight"] {
+  --bg: #0c0d10;
+  --bg-alt: #111217;
+  --surface: #15171c;
+  --fg: #ecebe6;
+  --muted: #9b9ba4;
+  --line: #24262d;
+  --line-strong: #33363f;
+  --accent: #f5b800;
+  --accent-soft: rgb(245 184 0 / 0.1);
+  --accent-ink: #111113;
+  --accent-text: #f6c445;
+  --inverse: #07080a;
+  --inverse-fg: #ecebe6;
+  --inverse-muted: #8e8e96;
+  --inverse-line: #1f2127;
+  --road: #22252c;
+  --road-edge: #07080a;
+  --ledge: #07080a;
+  --ledge-top: #f5b800;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -16px rgb(0 0 0 / 0.6);
+  --grid: rgb(255 255 255 / 0.035);
+  color-scheme: dark;
+}
+[data-theme="slate"] {
+  --bg: #f6f7f9;
+  --bg-alt: #eef1f5;
+  --surface: #ffffff;
+  --fg: #0f1b2d;
+  --muted: #55627a;
+  --line: #dde3eb;
+  --line-strong: #c9d1dc;
+  --accent: #f2c94c;
+  --accent-soft: #fcf2d2;
+  --accent-ink: #0f1b2d;
+  --accent-text: #85660a;
+  --inverse: #0f1b2d;
+  --inverse-fg: #eef1f5;
+  --inverse-muted: #9aa6ba;
+  --inverse-line: #213049;
+  --road: #1d2a40;
+  --road-edge: #0f1b2d;
+  --ledge: #0f1b2d;
+  --ledge-top: #f2c94c;
+  --shadow: 0 1px 2px rgb(15 27 45 / 0.05), 0 8px 24px -12px rgb(15 27 45 / 0.16);
+  --grid: rgb(15 27 45 / 0.05);
+  color-scheme: light;
 }
 
 @theme inline {
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-text: var(--accent-text);
+  --color-inverse: var(--inverse);
+  --color-inverse-fg: var(--inverse-fg);
+  --color-inverse-muted: var(--inverse-muted);
+  --color-inverse-line: var(--inverse-line);
+
+  /* legacy names used by the résumé page */
   --color-yellow: var(--yellow);
-  --color-yellow-deep: var(--yellow-deep);
-  --color-yellow-tab: var(--yellow-tab);
-  --color-mustard: var(--mustard);
   --color-ink: var(--ink);
   --color-cream: var(--cream);
   --color-oxblood: var(--oxblood);
-  --color-slate: var(--slate);
 
-  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-anton), Impact, "Arial Narrow", sans-serif;
-  --font-script: var(--font-yellowtail), cursive;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 1rem;
-  color-scheme: light;
 }
 
 body {
-  background: var(--yellow);
-  color: var(--ink);
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 250ms, color 250ms;
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--yellow);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 :focus-visible {
-  outline: 3px solid var(--ink);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
-/* Hand-drawn doodle pattern, tinted per section via --doodle */
-.doodle {
-  --doodle: #ffd34d;
-  background-color: var(--yellow);
-  background-image: var(--doodle-img);
-  background-size: 220px 220px;
+/* Fine engineering grid behind the hero */
+.grid-bg {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
 }
-.doodle-yellow {
-  --doodle-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220' fill='none' stroke='%23ffc928' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 40c10-20 40-20 40 0s-30 20-20 40 40 10 40-10'/%3E%3Cpath d='M140 20c20 0 30 20 14 30s-30 0-20-14'/%3E%3Ccircle cx='180' cy='110' r='9'/%3E%3Cpath d='M30 160c14-10 28 10 42 0s28-10 42 0'/%3E%3Cpath d='M150 170c0-16 26-16 26 0s-26 16-26 30'/%3E%3Cpath d='M96 96l8 8m0-8l-8 8'/%3E%3C/svg%3E");
-}
-.doodle-deep {
-  background-color: var(--yellow-deep);
-  --doodle-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220' fill='none' stroke='%23f6aa05' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 40c10-20 40-20 40 0s-30 20-20 40 40 10 40-10'/%3E%3Cpath d='M140 20c20 0 30 20 14 30s-30 0-20-14'/%3E%3Ccircle cx='180' cy='110' r='9'/%3E%3Cpath d='M30 160c14-10 28 10 42 0s28-10 42 0'/%3E%3Cpath d='M150 170c0-16 26-16 26 0s-26 16-26 30'/%3E%3Cpath d='M96 96l8 8m0-8l-8 8'/%3E%3C/svg%3E");
-}
-.doodle-ink {
-  background-color: var(--ink);
-  --doodle-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220' fill='none' stroke='%231f1a16' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 40c10-20 40-20 40 0s-30 20-20 40 40 10 40-10'/%3E%3Cpath d='M140 20c20 0 30 20 14 30s-30 0-20-14'/%3E%3Ccircle cx='180' cy='110' r='9'/%3E%3Cpath d='M30 160c14-10 28 10 42 0s28-10 42 0'/%3E%3Cpath d='M150 170c0-16 26-16 26 0s-26 16-26 30'/%3E%3Cpath d='M96 96l8 8m0-8l-8 8'/%3E%3C/svg%3E");
+.grid-fade {
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 40%, transparent 100%);
 }
 
-/* Topographic "trail map" pattern for the Journey section */
+/* Faint contour lines for the Journey section */
 .topo {
-  background-color: var(--yellow);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240' fill='none' stroke='%23f2b400' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M0 18c40 -10 80 -10 120 0s80 10 120 0'/%3E%3Cpath d='M0 62c40 -14 80 -14 120 0s80 14 120 0'/%3E%3Cpath d='M0 104c40 -9 80 -9 120 0s80 9 120 0'/%3E%3Cpath d='M0 150c40 -13 80 -13 120 0s80 13 120 0'/%3E%3Cpath d='M0 196c40 -11 80 -11 120 0s80 11 120 0'/%3E%3Cpath d='M0 232c40 -8 80 -8 120 0s80 8 120 0'/%3E%3Cpath d='M150 88c22 -10 52 -2 54 18s-26 30 -48 24 -34 -32 -6 -42z'/%3E%3Cpath d='M160 96c14 -6 34 -1 35 11s-17 19 -31 15 -22 -20 -4 -26z'/%3E%3Cpath d='M171 103c6 -3 15 0 15 5s-8 8 -13 6 -9 -8 -2 -11z'/%3E%3Cpath d='M40 160c18 -8 44 -2 46 14s-22 24 -40 20 -28 -26 -6 -34z'/%3E%3Cpath d='M50 167c10 -4 25 -1 26 8s-12 13 -22 11 -16 -14 -4 -19z'/%3E%3C/svg%3E");
-  background-size: 240px 240px;
+  background-color: var(--bg-alt);
+}
+.topo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-color: var(--line);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240' fill='none' stroke='%23000' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M0 18c40 -10 80 -10 120 0s80 10 120 0'/%3E%3Cpath d='M0 62c40 -14 80 -14 120 0s80 14 120 0'/%3E%3Cpath d='M0 104c40 -9 80 -9 120 0s80 9 120 0'/%3E%3Cpath d='M0 150c40 -13 80 -13 120 0s80 13 120 0'/%3E%3Cpath d='M0 196c40 -11 80 -11 120 0s80 11 120 0'/%3E%3Cpath d='M0 232c40 -8 80 -8 120 0s80 8 120 0'/%3E%3Cpath d='M150 88c22 -10 52 -2 54 18s-26 30 -48 24 -34 -32 -6 -42z'/%3E%3Cpath d='M160 96c14 -6 34 -1 35 11s-17 19 -31 15 -22 -20 -4 -26z'/%3E%3Cpath d='M40 160c18 -8 44 -2 46 14s-22 24 -40 20 -28 -26 -6 -34z'/%3E%3C/svg%3E")
+    0 0 / 240px 240px repeat;
+  pointer-events: none;
+}
+
+@layer components {
+/* Eyebrow label above section titles */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.eyebrow::before {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background: currentColor;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.6rem;
+  padding: 0.8rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition:
+    transform 150ms,
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.08), 0 8px 20px -10px var(--accent);
+}
+.btn-primary:hover {
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.08), 0 12px 28px -10px var(--accent);
+}
+.btn-secondary {
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--fg);
+}
+.btn-secondary:hover {
+  border-color: var(--fg);
+}
+
+/* Cards */
+.card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+}
+.chip {
+  display: inline-block;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
 }
 
 /* Motion */
@@ -355,6 +516,7 @@ g:hover > .star-hover {
 @media print {
   body {
     background: #fff;
+    color: var(--ink);
   }
 }
 
@@ -518,8 +680,8 @@ g:hover > .star-hover {
     background-color 200ms;
 }
 .blast-badge:hover {
-  background: var(--yellow);
-  scale: 1.1;
+  border-color: var(--accent);
+  scale: 1.06;
 }
 
 /* ---------- Journey walker ---------- */

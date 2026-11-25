@@ -40,7 +40,7 @@ export const projects: Project[] = [
       "Organisations, role-based access, Stripe subscriptions and custom domains per tenant — the foundation a B2B product launches on.",
     tags: ["Next.js", "Postgres", "Stripe", "RBAC"],
     status: "In progress",
-    palette: ["#1d1b17", "#ffc20e", "#f4f1ea"],
+    palette: ["#141416", "#f5b800", "#f4f3ee"],
   },
   {
     title: "AgentDesk",
@@ -49,7 +49,7 @@ export const projects: Project[] = [
       "Agents that call tools, connect to services over MCP and run long tasks as durable workflows, with a full trace of every step.",
     tags: ["Claude API", "MCP", "Workflows", "TypeScript"],
     status: "In progress",
-    palette: ["#f4f1ea", "#8b1a0e", "#ffc20e"],
+    palette: ["#f4f3ee", "#141416", "#f5b800"],
   },
   {
     title: "Inkwell",
@@ -58,7 +58,7 @@ export const projects: Project[] = [
       "Google-Docs-style editing with live cursors, comments and offline sync that merges cleanly when you reconnect.",
     tags: ["CRDT / Yjs", "WebSockets", "React"],
     status: "In progress",
-    palette: ["#566d7b", "#f4f1ea", "#ffd23f"],
+    palette: ["#1f2a3c", "#e9edf3", "#f2c94c"],
   },
   {
     title: "Atlas UI",
@@ -67,7 +67,7 @@ export const projects: Project[] = [
       "Design tokens, accessible components and docs in one monorepo, with visual-regression and a11y checks on every pull request.",
     tags: ["Turborepo", "Storybook", "a11y", "CI"],
     status: "In progress",
-    palette: ["#8b1a0e", "#ffd23f", "#f4f1ea"],
+    palette: ["#f5b800", "#141416", "#ffffff"],
   },
   {
     title: "Pulse",
@@ -76,7 +76,7 @@ export const projects: Project[] = [
       "Streams metrics, logs and traces into live charts and alerts, handling millions of events without dropping a frame.",
     tags: ["OpenTelemetry", "ClickHouse", "Streaming"],
     status: "In progress",
-    palette: ["#c4532d", "#f4f1ea", "#1d1b17"],
+    palette: ["#141416", "#f4f3ee", "#f5b800"],
   },
   {
     title: "Cartwheel",
@@ -85,7 +85,7 @@ export const projects: Project[] = [
       "An edge-rendered storefront on a headless CMS with instant search and near-perfect Core Web Vitals at catalogue scale.",
     tags: ["Next.js", "Edge", "Headless CMS", "Search"],
     status: "In progress",
-    palette: ["#f4f1ea", "#1d1b17", "#ffc20e"],
+    palette: ["#eef1f5", "#1f2a3c", "#f5b800"],
   },
 ];
 

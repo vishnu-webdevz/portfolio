@@ -125,10 +125,10 @@ export function Journey({ items }: { items: Job[] }) {
       <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 1000" preserveAspectRatio="none" aria-hidden="true">
         {[true, false].map((wide) => (
           <g key={String(wide)} className={wide ? "hidden md:inline" : "md:hidden"}>
-            <path d={roadPath(n, wide)} fill="none" stroke="#16120f" strokeWidth="64" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.12" transform="translate(0.6 6)" />
-            <path d={roadPath(n, wide)} fill="none" stroke="#16120f" strokeWidth="60" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-            <path d={roadPath(n, wide)} fill="none" stroke="#3a342d" strokeWidth="52" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-            <path d={roadPath(n, wide)} fill="none" stroke="#ffc20e" strokeWidth="3" strokeDasharray="14 14" vectorEffect="non-scaling-stroke" />
+            <path d={roadPath(n, wide)} fill="none" strokeWidth="66" strokeLinecap="round" vectorEffect="non-scaling-stroke" style={{ stroke: "var(--fg)" }} opacity="0.06" transform="translate(0 8)" />
+            <path d={roadPath(n, wide)} fill="none" strokeWidth="58" strokeLinecap="round" vectorEffect="non-scaling-stroke" style={{ stroke: "var(--road-edge)" }} />
+            <path d={roadPath(n, wide)} fill="none" strokeWidth="54" strokeLinecap="round" vectorEffect="non-scaling-stroke" style={{ stroke: "var(--road)" }} />
+            <path d={roadPath(n, wide)} fill="none" strokeWidth="2.5" strokeDasharray="16 14" vectorEffect="non-scaling-stroke" style={{ stroke: "var(--accent)" }} />
           </g>
         ))}
       </svg>
@@ -141,29 +141,28 @@ export function Journey({ items }: { items: Job[] }) {
             <li key={job.role + job.period} className="relative flex min-h-[260px] items-center py-8 pl-[20%] md:min-h-[var(--row)] md:pl-0">
               {/* pin on the road at the bend */}
               <span
-                className="absolute top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-[3px] border-ink bg-yellow font-display text-lg text-ink md:grid md:size-11"
+                className="absolute top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-accent font-mono text-sm font-semibold text-accent-ink shadow-[0_0_0_4px_var(--bg-alt),0_0_0_5px_var(--line-strong)] md:grid md:size-10"
                 style={{ left: cardRight ? "20%" : "80%" }}
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <article
-                className={`journey-card w-full rounded-2xl border-[3px] border-ink bg-cream p-6 shadow-[6px_6px_0_var(--ink)] md:w-[44%] ${
-                  cardRight ? "md:ml-auto md:rotate-1" : "md:-rotate-1"
-                }`}
-              >
-                <p className="inline-block rounded-full bg-ink px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-yellow">
-                  {job.period}
+              <article className={`journey-card card w-full p-6 transition-transform duration-300 hover:-translate-y-0.5 md:w-[44%] ${cardRight ? "md:ml-auto" : ""}`}>
+                <p className="flex flex-wrap items-center gap-x-2 font-mono text-xs uppercase tracking-[0.06em] text-accent-text">
+                  <span>{job.period}</span>
+                  {i === items.length - 1 && (
+                    <span className="rounded-full bg-accent px-2 py-0.5 text-[0.65rem] font-semibold normal-case tracking-normal text-accent-ink">Current</span>
+                  )}
                 </p>
-                <h3 className="mt-3 text-2xl font-bold tracking-tight">{job.role}</h3>
-                <p className="font-semibold text-oxblood">
+                <h3 className="mt-3 text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{job.role}</h3>
+                <p className="mt-0.5 text-[0.95rem] font-medium">
                   {job.company}
-                  {job.location && <span className="font-medium text-ink/60"> · {job.location}</span>}
+                  {job.location && <span className="font-normal text-muted"> · {job.location}</span>}
                 </p>
-                <p className="mt-3 leading-relaxed text-ink/85">{job.summary}</p>
+                <p className="mt-3 leading-relaxed text-muted">{job.summary}</p>
                 {job.highlights && job.highlights.length > 0 && (
-                  <ul className="mt-4 flex flex-wrap gap-2" aria-label="Skills used">
+                  <ul className="mt-5 flex flex-wrap gap-1.5 border-t border-line pt-4" aria-label="Skills used">
                     {job.highlights.map((h) => (
-                      <li key={h} className="rounded-full border-2 border-ink/80 px-3 py-1 text-xs font-bold">
+                      <li key={h} className="chip">
                         {h}
                       </li>
                     ))}
