@@ -2,6 +2,7 @@
 
 export const site = {
   name: "Vishnu",
+  url: "https://vishnu-portfolio-neon.vercel.app",
   tagline: ["Senior SDE · Web", "UI Builder", "Problem Solver"],
   role: "Senior SDE – Web",
   company: "SaaS Labs",

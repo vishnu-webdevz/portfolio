@@ -10,6 +10,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 const title = `${site.name} — ${site.tagline[0]}`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title,
   description: site.intro,
   openGraph: { title, description: site.intro, type: "website" },

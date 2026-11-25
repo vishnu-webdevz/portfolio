@@ -7,6 +7,9 @@ import { WorkGrid } from "@/components/work-grid";
 import { PlanetBlast } from "@/components/planet-blast";
 import { Journey } from "@/components/journey";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { PostCard } from "@/components/post-card";
+import { getAllPosts } from "@/lib/blog";
+import Link from "next/link";
 
 const hasJourney = experience.length > 0;
 
@@ -23,6 +26,7 @@ const stats = [
 const nav = [
   ...(hasJourney ? [{ href: "#journey", label: "Journey" }] : []),
   { href: "#work", label: "Work" },
+  { href: "/blog", label: "Blog" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
@@ -112,6 +116,7 @@ function SectionHeader({
 }
 
 export default function Home() {
+  const posts = getAllPosts().slice(0, 3);
   return (
     <>
       <a
@@ -351,11 +356,31 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ---------- Writing ---------- */}
+        {posts.length > 0 && (
+          <section id="writing" className="relative border-t border-line bg-bg-alt">
+            <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+              <SectionHeader index="05" eyebrow="Writing" title="Latest from the blog" description="Practical notes on headless WordPress, Next.js and building faster with AI." />
+              <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {posts.map((p) => (
+                  <li key={p.slug} className="flex">
+                    <PostCard post={p} />
+                  </li>
+                ))}
+              </ul>
+              <Link href="/blog" className="btn btn-secondary mt-10">
+                All posts
+                <ArrowIcon />
+              </Link>
+            </div>
+          </section>
+        )}
+
         {/* ---------- Contact ---------- */}
         <section id="contact" className="relative overflow-hidden bg-inverse text-inverse-fg">
           <PageSky seed={23} />
           <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <p className="eyebrow !text-accent">05 / Contact</p>
+            <p className="eyebrow !text-accent">06 / Contact</p>
             <h2 className="mt-5 text-[2.9rem] font-semibold leading-[1] tracking-[-0.045em] sm:text-7xl">
               Let&rsquo;s build something
               <br />
