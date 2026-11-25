@@ -1,9 +1,8 @@
-import { about, aiWorkflow, experience, projects, site, skills } from "@/content";
+import { about, aiWorkflow, experience, site, skills } from "@/content";
 import { LedgeProps } from "@/components/scene";
 import { SpaceBackdrop } from "@/components/space";
 import { Developer } from "@/components/developer";
 import { PageSky } from "@/components/page-sky";
-import { WorkGrid } from "@/components/work-grid";
 import { PlanetBlast } from "@/components/planet-blast";
 import { Journey } from "@/components/journey";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -25,7 +24,6 @@ const stats = [
 
 const nav = [
   ...(hasJourney ? [{ href: "#journey", label: "Journey" }] : []),
-  { href: "#work", label: "Work" },
   { href: "/blog", label: "Blog" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
@@ -212,8 +210,8 @@ export default function Home() {
               <p className="rise mt-6 text-xl font-medium tracking-[-0.01em] [animation-delay:140ms] sm:text-2xl">{site.subline}</p>
               <p className="rise mt-4 max-w-xl text-[1.05rem] leading-relaxed text-muted [animation-delay:200ms] sm:text-lg">{site.intro}</p>
               <div className="rise mt-9 flex flex-wrap items-center gap-3 [animation-delay:260ms]">
-                <a href="#work" className="btn btn-primary">
-                  See my work
+                <a href="#journey" className="btn btn-primary">
+                  View my journey
                   <ArrowIcon />
                 </a>
                 <a href={site.resumeUrl} download className="btn btn-secondary">
@@ -317,24 +315,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------- Work ---------- */}
-        <section id="work" className="relative border-t border-line bg-bg-alt">
-          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <SectionHeader
-              index="03"
-              eyebrow="Selected work"
-              title="Things I’m building"
-              description="Senior-level products in progress — each one a deep dive into a hard problem."
-            />
-            <WorkGrid projects={projects} />
-          </div>
-        </section>
-
         {/* ---------- About ---------- */}
-        <section id="about" className="relative border-t border-line">
+        <section id="about" className="relative border-t border-line bg-bg-alt">
           <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-20">
             <div>
-              <p className="eyebrow">04 / About</p>
+              <p className="eyebrow">03 / About</p>
               <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">A little about me</h2>
               <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
                 {about.paragraphs.map((p) => (
@@ -358,9 +343,9 @@ export default function Home() {
 
         {/* ---------- Writing ---------- */}
         {posts.length > 0 && (
-          <section id="writing" className="relative border-t border-line bg-bg-alt">
+          <section id="writing" className="relative border-t border-line">
             <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-              <SectionHeader index="05" eyebrow="Writing" title="Latest from the blog" description="Practical notes on headless WordPress, Next.js and building faster with AI." />
+              <SectionHeader index="04" eyebrow="Writing" title="Latest from the blog" description="Practical notes on headless WordPress, Next.js and building faster with AI." />
               <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {posts.map((p) => (
                   <li key={p.slug} className="flex">
@@ -380,7 +365,7 @@ export default function Home() {
         <section id="contact" className="relative overflow-hidden bg-inverse text-inverse-fg">
           <PageSky seed={23} />
           <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <p className="eyebrow !text-accent">06 / Contact</p>
+            <p className="eyebrow !text-accent">05 / Contact</p>
             <h2 className="mt-5 text-[2.9rem] font-semibold leading-[1] tracking-[-0.045em] sm:text-7xl">
               Let&rsquo;s build something
               <br />

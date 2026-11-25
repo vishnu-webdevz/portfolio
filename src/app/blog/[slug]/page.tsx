@@ -144,7 +144,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href={`mailto:${site.email}`} className="btn btn-primary">Email me</a>
-              <Link href="/#work" className="btn border border-inverse-line text-inverse-fg hover:border-inverse-fg">See my work</Link>
+              <Link href="/#journey" className="btn border border-inverse-line text-inverse-fg hover:border-inverse-fg">View my journey</Link>
             </div>
           </div>
         </section>
