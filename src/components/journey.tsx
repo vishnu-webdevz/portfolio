@@ -96,7 +96,8 @@ export function Journey({ items }: { items: Job[] }) {
       const y = p * r.height;
       const ahead = roadX(Math.min(1, p + 0.002), n, wide) - roadX(p, n, wide);
       walker.style.transform = `translate(${x}px, ${y}px)`;
-      walker.dataset.facing = ahead < -0.001 ? "left" : "right";
+      // On mobile the road only wiggles, so keep facing the cards (right).
+      walker.dataset.facing = wide && ahead < -0.001 ? "left" : "right";
       if (last >= 0 && Math.abs(p - last) > 0.0005) {
         walker.dataset.walking = "1";
         clearTimeout(idle);
