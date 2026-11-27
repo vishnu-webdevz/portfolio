@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 /* ---------- Design tokens ----------
-   Three themes share one set of semantic tokens. "gold" (white + yellow) is the
-   default; "midnight" and "slate" are alternates picked from the header switcher. */
+   Two themes share one set of semantic tokens: "gold" (light: white + yellow) is
+   the default and "midnight" is the dark theme, picked from the header switcher.
+   The header sky follows them: day with the sun in light, night with the moon in dark. */
 :root,
 [data-theme="gold"] {
   --bg: #ffffff;
@@ -57,30 +58,6 @@
   --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -16px rgb(0 0 0 / 0.6);
   --grid: rgb(255 255 255 / 0.035);
   color-scheme: dark;
-}
-[data-theme="slate"] {
-  --bg: #f6f7f9;
-  --bg-alt: #eef1f5;
-  --surface: #ffffff;
-  --fg: #0f1b2d;
-  --muted: #55627a;
-  --line: #dde3eb;
-  --line-strong: #c9d1dc;
-  --accent: #f2c94c;
-  --accent-soft: #fcf2d2;
-  --accent-ink: #0f1b2d;
-  --accent-text: #85660a;
-  --inverse: #0f1b2d;
-  --inverse-fg: #eef1f5;
-  --inverse-muted: #9aa6ba;
-  --inverse-line: #213049;
-  --road: #1d2a40;
-  --road-edge: #0f1b2d;
-  --ledge: #0f1b2d;
-  --ledge-top: #f2c94c;
-  --shadow: 0 1px 2px rgb(15 27 45 / 0.05), 0 8px 24px -12px rgb(15 27 45 / 0.16);
-  --grid: rgb(15 27 45 / 0.05);
-  color-scheme: light;
 }
 
 @theme inline {
@@ -235,6 +212,35 @@ body {
   font-size: 0.72rem;
   color: var(--muted);
 }
+}
+
+/* ---------- Header sky: day (light theme) / night (dark theme) ---------- */
+.sky-day,
+.sky-night {
+  transition: opacity 700ms ease;
+}
+[data-theme="midnight"] .sky-day,
+:root:not([data-theme="midnight"]) .sky-night {
+  opacity: 0;
+  pointer-events: none;
+}
+.cloud {
+  animation: cloud-drift 22s ease-in-out infinite alternate;
+}
+@keyframes cloud-drift {
+  to {
+    transform: translateX(40px);
+  }
+}
+.bird {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bird-flap 0.9s ease-in-out infinite alternate;
+}
+@keyframes bird-flap {
+  to {
+    transform: scaleY(0.4);
+  }
 }
 
 /* Motion */

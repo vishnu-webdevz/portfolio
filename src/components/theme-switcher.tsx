@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { THEMES, type ThemeId } from "./themes";
 
-/** Three small swatches that switch the site palette and remember the choice. */
+/** Two small swatches (light / dark) that switch the site palette and remember the choice. */
 export function ThemeSwitcher({ className = "" }: { className?: string }) {
   const [theme, setTheme] = useState<ThemeId>("gold");
 

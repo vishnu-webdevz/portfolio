@@ -2,8 +2,10 @@
 
 import { useRef, useState } from "react";
 
-/* Header backdrop: deep space with a sun, moon, planets, asteroids, a comet
-   and a UFO. Stars burst into sparks on click; the sun flares; the UFO zips off. */
+/* Header backdrop. Light theme: a day sky with the sun, clouds and birds (the
+   sun flares on click). Dark theme: deep space with the moon, planets,
+   asteroids, a comet and a UFO (stars burst on click; the UFO zips off).
+   Both are drawn; CSS fades between them from the html data-theme. */
 
 // Deterministic pseudo-random so server and client render the same stars.
 function rng(seed: number) {
@@ -25,6 +27,22 @@ const STARS: Star[] = (() => {
     delay: +(rand() * 4).toFixed(2),
   }));
 })();
+
+// Daytime clouds and birds (light theme).
+const CLOUDS = [
+  { x: 430, y: 70, s: 1 },
+  { x: 640, y: 150, s: 0.7 },
+  { x: 900, y: 50, s: 0.85 },
+  { x: 1120, y: 120, s: 1.1 },
+  { x: 1330, y: 60, s: 0.8 },
+  { x: 90, y: 160, s: 0.6 },
+];
+const BIRDS = [
+  { x: 540, y: 52 },
+  { x: 566, y: 64 },
+  { x: 1010, y: 88 },
+  { x: 1034, y: 98 },
+];
 
 const SPARKS = Array.from({ length: 10 }, (_, i) => i * 36);
 
@@ -64,13 +82,18 @@ export function SpaceBackdrop() {
         viewBox="0 0 1440 260"
         preserveAspectRatio="xMidYMax slice"
         role="img"
-        aria-label="Outer space with a sun, moon, planets and twinkling stars"
+        aria-label="Sky scene: a sunny day in the light theme, a starry night with the moon in the dark theme"
       >
         <defs>
           <linearGradient id="space" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#060a1c" />
             <stop offset="0.6" stopColor="#0f1a3a" />
             <stop offset="1" stopColor="#1d2c52" />
+          </linearGradient>
+          <linearGradient id="day" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#5fb6ea" />
+            <stop offset="0.6" stopColor="#a9dcf6" />
+            <stop offset="1" stopColor="#fff1c9" />
           </linearGradient>
           <radialGradient id="sunGlow">
             <stop offset="0" stopColor="#ffd96b" stopOpacity="0.55" />
@@ -86,6 +109,13 @@ export function SpaceBackdrop() {
           </linearGradient>
         </defs>
 
+        {/* ================= DAY (light theme) ================= */}
+        <g className="sky-day">
+          <rect width="1440" height="260" fill="url(#day)" />
+        </g>
+
+        {/* ================= NIGHT (dark theme) ================= */}
+        <g className="sky-night">
         <rect width="1440" height="260" fill="url(#space)" />
         <ellipse cx="620" cy="120" rx="360" ry="110" fill="url(#haze)" />
         <ellipse cx="1180" cy="60" rx="240" ry="80" fill="url(#haze)" />
@@ -119,7 +149,33 @@ export function SpaceBackdrop() {
           <circle cx="90" cy="0" r="3" fill="#fffbea" />
         </g>
 
-        {/* ---------- sun (click to flare) ---------- */}
+        </g>
+
+        {/* ---------- day: sun (click to flare), clouds and birds ---------- */}
+        <g className="sky-day">
+        {CLOUDS.map((c, i) => (
+          <g key={i} transform={`translate(${c.x} ${c.y}) scale(${c.s})`}>
+            <g className="cloud" style={{ animationDelay: `${-i * 4}s` }}>
+              <ellipse cx="0" cy="0" rx="48" ry="15" fill="#ffffff" />
+              <circle cx="-20" cy="-9" r="17" fill="#ffffff" />
+              <circle cx="8" cy="-16" r="22" fill="#ffffff" />
+              <circle cx="31" cy="-6" r="14" fill="#ffffff" />
+              <ellipse cx="0" cy="8" rx="46" ry="6" fill="#d7ecf8" opacity="0.8" />
+            </g>
+          </g>
+        ))}
+        {BIRDS.map((b, i) => (
+          <path
+            key={i}
+            className="bird"
+            d={`M${b.x} ${b.y}q6 -6 12 0q6 -6 12 0`}
+            stroke="#2c4458"
+            strokeWidth="2.2"
+            fill="none"
+            strokeLinecap="round"
+            style={{ animationDelay: `${i * 0.25}s` }}
+          />
+        ))}
         <g className="sun-group cursor-pointer" onClick={() => setFlare((f) => f + 1)}>
           <circle cx="230" cy="78" r="80" fill="url(#sunGlow)" pointerEvents="none" className="sun-glow" />
           <g key={flare} className={flare ? "sun-flare" : ""} style={{ transformOrigin: "230px 78px" }}>
@@ -139,6 +195,10 @@ export function SpaceBackdrop() {
           </g>
         </g>
 
+        </g>
+
+        {/* ---------- night: moon, planets, asteroids, UFO ---------- */}
+        <g className="sky-night">
         {/* ---------- moon ---------- */}
         <g className="float-slow" style={{ transformOrigin: "470px 60px" }}>
           <g className="planet-hover moon-hover">
@@ -212,6 +272,8 @@ export function SpaceBackdrop() {
           </g>
         </g>
 
+        </g>
+
         {/* ---------- star bursts ---------- */}
         {bursts.map((b) => (
           <g key={b.key} transform={`translate(${b.x} ${b.y})`} pointerEvents="none">
@@ -225,8 +287,11 @@ export function SpaceBackdrop() {
         ))}
       </svg>
 
-      <p className="pointer-events-none absolute right-3 top-2 font-sans text-[0.65rem] font-bold uppercase tracking-[0.16em] text-white/45 sm:right-5 sm:top-3">
+      <p className="sky-night pointer-events-none absolute right-3 top-2 font-sans text-[0.65rem] font-bold uppercase tracking-[0.16em] text-white/45 sm:right-5 sm:top-3">
         ✦ Click the stars{count > 0 && ` · ${count} popped`}
+      </p>
+      <p className="sky-day pointer-events-none absolute right-3 top-2 font-sans text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[#1f3a52]/55 sm:right-5 sm:top-3">
+        ☀ Click the sun
       </p>
     </div>
   );
